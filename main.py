@@ -5,8 +5,15 @@ import pandas as pd
 
 st.title("My Organized Dashboard")
 st.set_page_config(layout="wide")
-st.sidebar.title("apple")
-df = pd.read_csv(r"C:\Users\rupay\Downloads\Telegram Desktop\Chocolate Sales (2).csv")
+# st.sidebar().title("file uploder")
+file= st.file_uploader("Upload a csv or excel file", type=["csv"])
+if file:
+    df = pd.read_csv(file)
+else:
+    st.write("Your file is not uploaded")
+    st.stop()
+
+#df = pd.read_csv(r"C:\Users\rupay\Downloads\Telegram Desktop\Chocolate Sales (2).csv")
 
 
 def all_features(feature, data_frame):
@@ -68,7 +75,8 @@ def all_features(feature, data_frame):
         get_that_group=group.get_group(select_a_group)
         return get_that_group
     elif feature=="Statistical Summary":
-        pass
+        summary =temp_data.describe()
+        return summary
     elif feature=="Rename Group":
         pass
 #df = pd.read_csv(r"C:\Users\rupay\Downloads\Telegram Desktop\Chocolate Sales (2).csv")
