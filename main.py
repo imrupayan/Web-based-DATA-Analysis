@@ -1,17 +1,29 @@
 import streamlit as st
 import numpy as np
 import pandas as pd
-
+import openpyxl
 
 st.title("My Organized Dashboard")
 st.set_page_config(layout="wide")
-# st.sidebar().title("file uploder")
-file= st.file_uploader("Upload a csv or excel file", type=["csv"])
-if file:
-    df = pd.read_csv(file)
+
+    
+with st.sidebar:
+   file=st.file_uploader("Upload a csv or xlsx file", type=["csv","xlsx"])
+
+if file is not None:
+    if file.name.endswith(".csv"):
+        df=pd.read_csv(file)
+    else:
+        df=pd.read_excel(file)
 else:
-    st.write("Your file is not uploaded")
+    st.info("Please upload a file to procced")
     st.stop()
+    
+
+    
+
+       
+
 
 #df = pd.read_csv(r"C:\Users\rupay\Downloads\Telegram Desktop\Chocolate Sales (2).csv")
 
@@ -69,7 +81,7 @@ def all_features(feature, data_frame):
 
     elif feature=="Groupwise Filter":
         group_filter= st.selectbox("Select a Column", temp_data.columns)
-        group=temp_data.groupby(group_filter)
+        group=temp_data.groupby(group_filter,dropna=False)
         unique_group=temp_data[group_filter].unique()
         select_a_group=st.selectbox("Select a group", unique_group )
         get_that_group=group.get_group(select_a_group)
